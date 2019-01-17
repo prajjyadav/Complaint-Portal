@@ -1,0 +1,77 @@
+
+{% extends "comportal/base.html" %}
+{% block content %}
+{% comment %} <a href="{% url 'comportal:newcomplain' %}"><button>add </button></a><br>
+<a href="/comportal/hostel"><button>hostel </button></a><br>
+<a href="/comportal/academics"><button>academics </button></a><br>
+<a href="/comportal/colony"><button>colony </button></a><br>
+<a href="{% url 'comportal:index' %}"><button>all </button></a><br> {% endcomment %}
+{% comment %} {% if user.is_authenticated %}
+<a href="{% url 'users_auth:user-profile' %}">  {{ user.get_username }}</a>
+{% endif %} {% endcomment %}
+<div class="row">
+        <div class="col-md-8">
+            {% if complain_list %}
+                <ul>
+                    {% for complain in complain_list %}
+                        {% comment %} <div style="border:3px solid grey; border-radius:5px;"> {% endcomment %}
+                            <div class="media" >
+                                {% comment %} <div class="media-left media-top">
+                                    <a href="#">
+                                        <img class="rounded-circle" src="{{ complain.by.image.url }}" style= "width: 100px; height: 100px;">
+
+                                    </a>
+                                </div> {% endcomment %}
+                                <div class="media-body">
+                                    <h4 class="media-heading"><a href="{% url 'comportal:detail' complain.id %}">{{ complain.title|title }}</a></h4>
+                                    <small >author : {{ complain.by }}</small><br>
+                                    <small class="text-muted">date : {{ complain.pub_date|date:"F d, Y" }}</small><br>
+                                    {% if  complain.status == 0 %}
+                                    <button class="btn-primary">No action yet taken</button>
+                                    {% elif complain.status == 1 %}
+                                    <button class="btn-success">In process</button>
+                                    {% else %}
+                                    <button class="btn-primary">Complain resolved</button>
+                                    {% endif %}
+                                    <p>description : {{ complain.details }}</p>
+                                    {% lorem %}
+                                </div>
+                            </div>
+                            <hr>
+                            <hr>
+                        {% comment %} <div> {% endcomment %}
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <h3> no complains </h3>
+            {% endif %}
+            
+        </div>
+        <div class="col-md-4">
+          <div class="content-section">
+            <h3>Profile</h3>
+            <img class="rounded-circle" src="{{ user.image.url }}" style= "width: 300px; height: 300px;">
+            <p class='text-muted'>
+            {% if allow %}
+            <a href="{% url 'users_auth:update-profile' user.id %}">Update Profile</a>
+            {% endif %}
+              <ul class="list-group">
+                <li class="list-group-item list-group-item-light">
+                Name: {{user.name}}
+                </li>
+                <li class="list-group-item list-group-item-light">
+                Email: {{user.email}}
+                </li>
+                <li class="list-group-item list-group-item-light">
+                Mobile: {{user.mobile}}
+                </li>
+                <li class="list-group-item list-group-item-light">
+                Registration number: {{user.registration_number}}
+                </li>
+              </ul>
+            </p>
+          </div>
+        </div>
+
+
+{% endblock %}

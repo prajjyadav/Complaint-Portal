@@ -1,0 +1,38 @@
+{% extends "comportal/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="col-md-8 content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Log In</legend>
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Login</button>
+                <small class="text-muted ml-2">
+                    <a href="{% url 'password_reset' %}">Forgot Password?</a>
+                </small>
+            </div>
+        </form>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Need An Account? <a class="ml-2" href="{% url 'users_auth:register' %}">Sign Up Now</a>
+            </small>
+        </div>
+        <hr>
+  <div class="col-xs-4 col-sm-3">
+        <a href="{% url 'social:begin' 'github' %}" class="btn btn-lg btn-primary  btn-github ">
+          <i class="fab fa-github"></i>
+          <span class="hidden-xs">Sign in with Github</span>
+        </a>
+      </div>
+      <div class="col-xs-4 col-sm-3">
+        <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-lg btn-danger btn-google">
+          <i class="fab fa-google-plus-g"></i>
+          <span class="hidden-xs">Sign in with Google</span>
+        </a>
+    </div>
+</div>
+
+{% endblock content %}
